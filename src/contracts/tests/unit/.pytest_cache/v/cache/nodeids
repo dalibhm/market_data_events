@@ -1,0 +1,4 @@
+[
+  "test_flask.py::test_add_contract",
+  "test_handlers.py::TestAddContract::test_for_existing_product"
+]

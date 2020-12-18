@@ -1,0 +1,10 @@
+[
+  "test_repository.py::test_contract_details_repository",
+  "test_repository.py::test_contract_repository",
+  "test_repository.py::test_get_by_conId",
+  "test_uow.py::test_uow_add_contract",
+  "test_uow.py::test_uow_add_contract_to_existing_instrument",
+  "test_uow.py::test_uow_add_contract_to_new_instrument",
+  "test_uow.py::test_uow_get_existing_contract",
+  "test_uow.py::test_uow_get_inexisting_contract"
+]

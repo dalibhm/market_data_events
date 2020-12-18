@@ -1,0 +1,8 @@
+{
+  "test_repository.py::test_get_by_conId": true,
+  "test_uow.py::test_uow_add_contract": true,
+  "test_uow.py::test_uow_add_contract_to_existing_instrument": true,
+  "test_uow.py::test_uow_add_contract_to_new_instrument": true,
+  "test_uow.py::test_uow_get_existing_contract": true,
+  "test_uow.py::test_uow_get_inexisting_contract": true
+}

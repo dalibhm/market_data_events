@@ -1,0 +1,7 @@
+[
+  "integration/test_uow.py::test_uow_add_contract_to_existing_instrument",
+  "integration/test_uow.py::test_uow_add_contract_to_new_instrument",
+  "integration/test_uow.py::test_uow_get_existing_contract",
+  "unit/test_handlers.py::TestAddContract::test_for_existing_product",
+  "unit/test_handlers.py::TestAddContract::test_for_new_product"
+]

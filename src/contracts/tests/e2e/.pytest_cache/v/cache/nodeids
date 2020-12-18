@@ -1,0 +1,3 @@
+[
+  "test_api.py::test_happy_path_returns_202_and_batch_is_allocated"
+]

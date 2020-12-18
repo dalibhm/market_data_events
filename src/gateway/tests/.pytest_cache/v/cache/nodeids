@@ -1,0 +1,11 @@
+[
+  "test_ib_gateway.py::test_ib_gateway",
+  "test_ib_gateway.py::test_ib_gateway_connection",
+  "test_ib_gateway.py::test_ib_gateway_connection_reqMatchingSymbols",
+  "test_ibwrapper.py::test_ib_wrapper",
+  "test_repository.py::test_contract_details_repository",
+  "test_repository.py::test_contract_repository",
+  "test_uow.py::test_uow_add_contract_to_existing_instrument",
+  "test_uow.py::test_uow_add_contract_to_new_instrument",
+  "test_uow.py::test_uow_get_existing_contract"
+]

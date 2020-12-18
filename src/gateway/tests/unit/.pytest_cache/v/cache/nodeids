@@ -1,0 +1,8 @@
+[
+  "test_exchange.py::test_exchange",
+  "test_handlers.py::TestAddContract::test_for_existing_contract",
+  "test_handlers.py::TestAddContract::test_for_existing_contract_same_conId",
+  "test_handlers.py::TestAddContract::test_for_existing_product",
+  "test_handlers.py::TestAddContract::test_for_new_contract",
+  "test_handlers.py::TestAddContract::test_for_new_product"
+]

@@ -1,0 +1,4 @@
+{
+  "test_flask.py": true,
+  "test_flask.py::test_add_contract": true
+}
