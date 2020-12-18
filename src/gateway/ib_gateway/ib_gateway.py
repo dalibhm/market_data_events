@@ -13,7 +13,9 @@ class IbGateway(EClient, Wrapper):
     def __init__(self):
         # self.wrapper = EWrapper()
         # self.client = EClient(self.wrapper)
-        EClient.__init__(self, self)
+        # EClient.__init__(self, self)
+        super().__init__(self)
+        Wrapper.__init__(self)
         self.nextValidOrderId = None
         self.permId2ord = {}
 

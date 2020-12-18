@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from datetime import datetime
 from typing import List
 
@@ -9,8 +9,16 @@ from gateway.domain.contract import Contract
 class IbEvent:
     created_on: datetime
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         self.created_on = datetime.now()
+
+        for name in args:
+            if name in asdict(self).keys():
+                setattr(self, name, args[name])
+
+        for name, value in kwargs.items():
+            if name in asdict(self).keys():
+                setattr(self, name, value)
 
 
 @dataclass
@@ -19,40 +27,46 @@ class IbError(IbEvent):
     errorCode: int = -1
     errorString: str = ""
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 
 @dataclass
 class ConnectionAcknowledged(IbEvent):
-    pass
+    def __init__(self, *args,  **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 @dataclass
 class ConnectionClosed(IbEvent):
-    pass
-
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 @dataclass
 class HistoricalDataReceived(IbEvent):
-    reqId: int
-    time: str
-    open: float
-    high: float
-    low: float
-    close: float
-    volume: int
-    wap: float
-    count: int
+    reqId: int = -1
+    date: str = ""
+    open: float = -1
+    high: float = -1
+    low: float = -1
+    close: float = -1
+    volume: int = 0
+    wap: float = 0
+    count: int = 0
 
-    # def __init__(self):
-    #     super().__init__()
-
+    def __init__(self, *args,  **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 @dataclass
 class HistoricalDataEnded(IbEvent):
-    reqId: int
-    start: str
-    end: str
+    reqId: int = -1
+    start: str = ""
+    end: str = ""
+
+    def __init__(self, *args,  **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 @dataclass
@@ -125,10 +139,13 @@ class ContractDescriptionReceived(IbEvent):
     contract: Contract
     derivativeSecTypes: List[str]
 
+    def __init__(self, **kwargs):
+        super().__init__()
+        for name, value in kwargs.items():
+            setattr(self, name, value)
+
 
 @dataclass
 class ContractReceived(IbEvent):
     reqId: int
     contract: Contract
-
-

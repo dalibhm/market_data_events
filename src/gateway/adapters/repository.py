@@ -51,7 +51,7 @@ class SqlAlchemyRepository(AbstractRepository):
 
     def _get_by_conId(self, conId):
         if self.session.query(Instrument).count() > 0:
-            return self.session.query(Instrument).join(Contract).filter(Contract.conId == conId).first()
+            return self.session.query(Instrument).filter(Instrument.conId == conId).first()
         else:
             return None
 

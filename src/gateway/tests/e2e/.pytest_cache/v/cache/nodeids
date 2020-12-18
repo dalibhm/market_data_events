@@ -1,3 +1,4 @@
 [
+  "test_program.py::test_historical_data_download",
   "test_program.py::test_program_up"
 ]

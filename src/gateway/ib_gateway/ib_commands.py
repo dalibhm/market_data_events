@@ -8,8 +8,11 @@ from historical_data.domain.data import Contract
 class IbCommand:
     created_on: datetime
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.created_on = datetime.now()
+        if kwargs is not None:
+            for key, value in kwargs.items():
+                setattr(self, key, value)
 
 
 @dataclass
@@ -17,11 +20,14 @@ class RequestMatchingSymbols(IbCommand):
     reqId: int
     symbol: str
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
 
 @dataclass
 class RequestHistoricalData(IbCommand):
     reqId: int
-    contract: Contract
+    conId: int
     endDateTime: str
     durationStr: str
     barSizeSetting: str
@@ -30,3 +36,6 @@ class RequestHistoricalData(IbCommand):
     formatDate: int
     keepUpToDate: bool
     chartOptions: list
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

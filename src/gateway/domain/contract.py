@@ -70,7 +70,7 @@ class Contract:
         'secId', 'comboLegsDescrip', 'comboLegs', 'deltaNeutralContract'
     ]
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.conId = 0
         self.symbol = ""
         self.secType = ""
@@ -91,6 +91,9 @@ class Contract:
         self.comboLegsDescrip = ""  # type: str; received in open order 14 and up for all combos
         self.comboLegs = None  # type: list<ComboLeg>
         self.deltaNeutralContract = None
+
+        for name, value in kwargs.items():
+            setattr(self, name, value)
 
     @classmethod
     def from_ib(cls, ib_contract: IbContract):

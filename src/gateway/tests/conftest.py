@@ -16,7 +16,7 @@ from gateway import config
 
 
 @pytest.fixture
-def in_memory_db():
+def in_memory_sqlite_db():
     engine = create_engine('sqlite:///:memory:')
     sql_alchemy.metadata.create_all(engine)
     return engine
@@ -36,7 +36,6 @@ def mappers():
 
 @pytest.fixture
 def session_factory(in_memory_db):
-    contracts = sql_alchemy.contracts
     sql_alchemy.start_mappers()
     yield sessionmaker(bind=in_memory_db)
     clear_mappers()

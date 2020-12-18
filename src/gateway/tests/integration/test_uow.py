@@ -1,9 +1,9 @@
-from ib_gateway.domain import commands, events
-from ib_gateway.services import unit_of_work
-from ib_gateway.tests.conftest import *
-from ibapi.contract import Contract
+from gateway.domain import commands, events
+from gateway.services import unit_of_work
+from gateway.tests.conftest import *
+from gateway.domain.contract import Contract
 
-from ib_gateway.services.handlers import add_contract  # , get_contract_by_symbol
+from gateway.services.handlers import add_contract  # , get_contract_by_symbol
 
 
 def insert_contract(session, symbol, version):
@@ -33,7 +33,9 @@ def test_uow_add_contract(session_factory):
 
     uow = unit_of_work.SqlAlchemyUnitOfWork(session_factory)
     with uow:
-        add_contract(cmd=events.ContractReceived(reqId=1, contract=new_contract), uow=uow)
+        add_contract(
+            cmd=commands.CreateContract(new_contract),
+            uow=uow)
 
     with uow:
         contract = uow.instruments.get(symbol='test-symbol')
@@ -47,15 +49,15 @@ def test_uow_get_existing_contract(session_factory):
 
     uow = unit_of_work.SqlAlchemyUnitOfWork(session_factory)
     with uow:
-        contract = uow.instruments.get(symbol='test-symbol-2')
+        contract = uow.instruments.get(symbol='test-symbol-2').contract
         assert contract.symbol == "test-symbol-2"
 
 
 def test_uow_get_inexisting_contract(session_factory):
-    uow = unit_of_work.SqlAlchemyUnitOfWork(session_factory, entity_type=Contract)
+    uow = unit_of_work.SqlAlchemyUnitOfWork(session_factory)
     with uow:
-        contract = uow.entities.get(symbol='test-symbol')
-        assert contract is None
+        instrument = uow.instruments.get(symbol='test-symbol')
+        assert instrument is None
 
 # def test_uow_add_contract_to_existing_instrument(session_factory):
 #     session = session_factory()

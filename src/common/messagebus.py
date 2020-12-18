@@ -8,9 +8,6 @@ from ib_gateway import events as ib_gateway_events
 from contracts.service_layer import events as contracts_events
 
 
-
-import historical_data.service_layer.messagebus as historical_data
-
 logger = logging.getLogger(__name__)
 
 Message = Union[domain_events.Command, domain_events.DomainEvent]

@@ -1,4 +1,9 @@
 [
+  "e2e/test_program.py::test_program_up",
+  "integration/test_repository.py::test_get_by_conId",
+  "integration/test_uow.py::test_uow_add_contract",
+  "integration/test_uow.py::test_uow_get_existing_contract",
+  "integration/test_uow.py::test_uow_get_inexisting_contract",
   "test_ib_gateway.py::test_ib_gateway",
   "test_ib_gateway.py::test_ib_gateway_connection",
   "test_ib_gateway.py::test_ib_gateway_connection_reqMatchingSymbols",
@@ -7,5 +12,9 @@
   "test_repository.py::test_contract_repository",
   "test_uow.py::test_uow_add_contract_to_existing_instrument",
   "test_uow.py::test_uow_add_contract_to_new_instrument",
-  "test_uow.py::test_uow_get_existing_contract"
+  "test_uow.py::test_uow_get_existing_contract",
+  "unit/test_exchange.py::test_exchange",
+  "unit/test_handlers.py::TestAddContract::test_for_existing_contract",
+  "unit/test_handlers.py::TestAddContract::test_for_existing_contract_same_conId",
+  "unit/test_handlers.py::TestAddContract::test_for_new_contract"
 ]

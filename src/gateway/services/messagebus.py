@@ -1,8 +1,7 @@
 # pylint: disable=broad-except
 from __future__ import annotations
 import logging
-import time
-from queue import Queue
+
 from typing import List, Dict, Callable, Type, Union, TYPE_CHECKING
 from gateway.domain import commands, events
 from gateway.ib_gateway import ib_events, ib_commands
@@ -20,19 +19,20 @@ Command = Union[commands.Command, ib_commands.IbCommand]
 
 class MessageBus:
 
-    def __init__(
-            self,
-            uow: unit_of_work.AbstractUnitOfWork,
-            event_handlers: Dict[Type[events.Event], List[Callable]],
-            command_handlers: Dict[Type[commands.Command], Callable],
-            ib_commands_exchange: Exchange,
-            ib_events_exchange: Exchange,
-    ):
+    def __init__(self, uow: unit_of_work.AbstractUnitOfWork,
+                 event_handlers: Dict[Type[events.Event], List[Callable]],
+                 command_handlers: Dict[Type[commands.Command], Callable],
+                 ib_commands_exchange: Exchange,
+                 ib_events_exchange: Exchange,
+                 ):
         self.uow = uow
         self.event_handlers = event_handlers
         self.command_handlers = command_handlers
         self.ib_commands_exchange = ib_commands_exchange
         self.ib_events_exchange = ib_events_exchange
+
+    def send(self, message):
+        self.handle(message)
 
     def handle(self, message: Message) -> None:
         self.queue = [message]

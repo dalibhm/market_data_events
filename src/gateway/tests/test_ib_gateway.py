@@ -1,7 +1,7 @@
 import time
 
-from ib_gateway.ib_gateway.ib_gateway import IbGateway
-from ib_gateway.services.ib_gateway_connection import IbGatewayConnection
+from gateway.ib_gateway.ib_gateway import IbGateway
+from gateway.services.ib_gateway_connection import IbGatewayConnection
 
 
 def test_ib_gateway():
