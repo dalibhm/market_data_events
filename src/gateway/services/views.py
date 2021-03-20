@@ -1,4 +1,4 @@
-from gateway.domain.contract import Contract
+from gateway.domain.contract_v0 import Contract
 
 
 def contract(conId, uow) -> Contract:

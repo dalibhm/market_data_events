@@ -2,7 +2,7 @@ from dataclasses import dataclass, asdict
 from datetime import datetime
 from typing import List
 
-from gateway.domain.contract import Contract, DerivativeSecTypes, ContractDetails
+from gateway.domain.contract_v0 import Contract, DerivativeSecTypes, ContractDetails
 
 
 class Command:

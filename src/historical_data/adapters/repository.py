@@ -12,8 +12,8 @@ class AbstractRepository(abc.ABC):
         self._add(instrument)
         self.seen.add(instrument)
 
-    def get(self, symbol) -> instrument.Instrument:
-        instrument = self._get(symbol)
+    def get(self, conId) -> instrument.Instrument:
+        instrument = self._get(conId)
         if instrument:
             self.seen.add(instrument)
         return instrument
@@ -36,5 +36,5 @@ class SqlAlchemyRepository(AbstractRepository):
     def _add(self, product):
         self.session.add(product)
 
-    def _get(self, symbol):
-        return self.session.query(instrument.Instrument).filter_by(symbol=symbol).first()
+    def _get(self, conId):
+        return self.session.query(instrument.Instrument).filter_by(conId=conId).first()

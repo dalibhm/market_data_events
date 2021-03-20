@@ -1,11 +1,13 @@
 from __future__ import annotations
+
+from dataclasses import asdict
 from typing import Optional, TYPE_CHECKING
 from datetime import date
 
 from common import utils
 from historical_data.domain.download import Download
 from historical_data.domain import commands
-from historical_data.domain.instrument import Instrument
+from historical_data.domain.instrument import Instrument, Request
 from ..domain.download import Download
 
 if TYPE_CHECKING:
@@ -16,57 +18,29 @@ class InstrumenMissing(Exception):
     pass
 
 
-def add_download(
-        cmd: commands.CreateDownload,
+def add_request(
+        cmd: commands.AddRequest,
         uow: unit_of_work.AbstractUnitOfWork
-) -> Download:
+) -> None:
+    conId = cmd.request.conId
+    symbol = cmd.symbol
     with uow:
-        instrument = uow.instruments.get(symbol=cmd.symbol)
+        instrument = uow.instruments.get(conId=conId)
         if instrument is None:
-            instrument = Instrument(symbol=cmd.symbol,
-                                    contract_id=cmd.contract_id,
-                                    downloads=[])
+            instrument = Instrument(conId=conId, symbol=symbol)
             uow.instruments.add(instrument)
-            download_id = utils.generate_event_id()
-            download = Download(id=download_id,
-                                contract_id=cmd.contract_id,
-                                bar_size=cmd.bar_size,
-                                what_to_show=cmd.what_to_show,
-                                use_rth=cmd.use_rth,
-                                start_date=cmd.start_date,
-                                end_date=cmd.end_date)
-            instrument.downloads.append(download)
-            uow.commit()
-            return download
-
-        get_downloads()
-        download_id = utils.generate_event_id()
-        download = Download(id=download_id,
-                            contract_id=cmd.contract_id,
-                            bar_size=cmd.bar_size,
-                            what_to_show=cmd.what_to_show,
-                            use_rth=cmd.use_rth,
-                            start_date=cmd.start_date,
-                            end_date=cmd.end_date)
-        instrument.downloads.append(download)
+        instrument.add_request(cmd.request)
         uow.commit()
-        return download
 
+def update_recent(
+        request: Request,
+        uow: unit_of_work.AbstractUnitOfWork
+) -> Request:
+    conId = request.conId
+    with uow:
+        instrument = uow.instruments.get(conId=conId)
+        processed_request = instrument.update_recent(request.endDateTime)
 
-# def add_download(
-#         id: str, symbol: str, contract_id: str, bar_size: str, what_to_show: str,
-#         use_rth: int, start_date: str, end_date: str,
-#         uow: unit_of_work.AbstractUnitOfWork
-# ) -> Download:
-#     with uow:
-#         instrument = uow.instruments.get(symbol=symbol)
-#         if instrument is None:
-#             instrument = instrument.Instrument(symbol=symbol, contract_id=contract_id, downloads=[])
-#             uow.instruments.add(instrument)
-#         download = historical_data.domain.download.Download(id, bar_size, what_to_show, use_rth, start_date, end_date)
-#         instrument.downloads.append(download)
-#         uow.commit()
-#         return download
 
 def get_downloads(cmd: commands.CreateDownload,
                   uow: unit_of_work.AbstractUnitOfWork
@@ -111,3 +85,22 @@ def download_historical_data(
         instrument.check_download_dates_against_previous(download)
         # send download somehow
         uow.commit()
+
+
+EVENT_HANDLERS = {
+    # events.Write: [write_contract_descriptions, log_message],
+    # events.Allocated: [
+    #     handlers.publish_allocated_event,
+    #     handlers.add_allocation_to_read_model
+    # ],
+    # events.Deallocated: [
+    #     handlers.remove_allocation_from_read_model,
+    #     handlers.reallocate,
+    # ],
+    # events.OutOfStock: [handlers.send_out_of_stock_notification],
+}  # type: Dict[Type[events.Event], List[Callable]]
+
+COMMAND_HANDLERS = {
+    # commands.WriteContract: write_contract_descriptions,
+    commands.AddRequest: add_request,
+}  # type: Dict[Type[commands.Command], Callable]

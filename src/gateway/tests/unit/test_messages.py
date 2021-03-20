@@ -1,4 +1,4 @@
-from gateway.domain.contract import Contract, DerivativeSecTypes
+from gateway.domain.contract_v0 import Contract, DerivativeSecTypes
 from gateway.ib_gateway import ib_commands, ib_events
 
 

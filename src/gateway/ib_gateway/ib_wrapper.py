@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from gateway.data_structures import bar_data
 from gateway.ib_gateway.ib_events import ContractDetailsReceived, HistoricalDataReceived, HistoricalDataEnded, \
     ContractDescriptionReceived
 from gateway.services import exchange
@@ -50,7 +51,9 @@ class Wrapper(EWrapper):
             ContractDetailsReceived(reqId, **contract.__dict__, **ContractDetails.__dict__))
 
     def historicalData(self, reqId: int, bar: BarData):
-        self.historical_data_exchange.send(HistoricalDataReceived(reqId=reqId, **bar.__dict__))
+        self.historical_data_exchange.send(
+            HistoricalDataReceived(reqId=reqId, bar_data=bar_data.BarData.from_ib(bar))
+        )
 
     def historicalDataEnd(self, reqId: int, start: str, end: str):
         self.historical_data_end_exchange.send(HistoricalDataEnded(reqId=reqId, start=start, end=end))

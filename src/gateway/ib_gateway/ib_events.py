@@ -2,23 +2,13 @@ from dataclasses import dataclass, asdict
 from datetime import datetime
 from typing import List
 
-from gateway.domain.contract import Contract
+from gateway.data_structures.bar_data import BarData
+from gateway.domain.contract_v0 import Contract
 
 
 @dataclass
 class IbEvent:
-    created_on: datetime
-
-    def __init__(self, *args, **kwargs):
-        self.created_on = datetime.now()
-
-        for name in args:
-            if name in asdict(self).keys():
-                setattr(self, name, args[name])
-
-        for name, value in kwargs.items():
-            if name in asdict(self).keys():
-                setattr(self, name, value)
+    created_on: datetime = datetime.now()
 
 
 @dataclass
@@ -27,36 +17,21 @@ class IbError(IbEvent):
     errorCode: int = -1
     errorString: str = ""
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
 
 @dataclass
 class ConnectionAcknowledged(IbEvent):
-    def __init__(self, *args,  **kwargs):
-        super().__init__(*args, **kwargs)
+    pass
 
 
 @dataclass
 class ConnectionClosed(IbEvent):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    pass
 
 
 @dataclass
 class HistoricalDataReceived(IbEvent):
     reqId: int = -1
-    date: str = ""
-    open: float = -1
-    high: float = -1
-    low: float = -1
-    close: float = -1
-    volume: int = 0
-    wap: float = 0
-    count: int = 0
-
-    def __init__(self, *args,  **kwargs):
-        super().__init__(*args, **kwargs)
+    bar_data: BarData = None
 
 
 @dataclass
@@ -65,13 +40,10 @@ class HistoricalDataEnded(IbEvent):
     start: str = ""
     end: str = ""
 
-    def __init__(self, *args,  **kwargs):
-        super().__init__(*args, **kwargs)
-
 
 @dataclass
 class ContractDetailsReceived(IbEvent):
-    reqId: int
+    reqId: int = -1
 
     # contracts fields
     conId = 0
@@ -135,9 +107,9 @@ class ContractDetailsReceived(IbEvent):
 
 @dataclass
 class ContractDescriptionReceived(IbEvent):
-    reqId: int
-    contract: Contract
-    derivativeSecTypes: List[str]
+    reqId: int = -1
+    contract: Contract = None
+    derivativeSecTypes: List[str] = None
 
     def __init__(self, **kwargs):
         super().__init__()
@@ -147,5 +119,5 @@ class ContractDescriptionReceived(IbEvent):
 
 @dataclass
 class ContractReceived(IbEvent):
-    reqId: int
-    contract: Contract
+    reqId: int = -1
+    contract: Contract = -1

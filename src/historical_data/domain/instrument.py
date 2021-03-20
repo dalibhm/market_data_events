@@ -1,22 +1,43 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
+from datetime import datetime
 from typing import List
 
 from historical_data.domain.download import Download
-from historical_data.domain.events_old import SubmitRequest
+
+
+@dataclass
+class Request:
+    conId: int
+    endDateTime: str
+    durationStr: str
+    barSizeSetting: str
+    whatToShow: str
+    useRTH: int
+    formatDate: int
+    keepUpToDate: bool
+    data_summary: DataSummary
 
 
 class Instrument:
-    def __init__(self, symbol: str, contract_id: str, downloads: List[Download] = None):
+    def __init__(self, symbol: str, conId: str,
+                 downloads: List[Download] = None,
+                 requests: List[Request] = None):
         """
         :param symbol: for information purpose only
         :param contract_id: unique identifier of a stock
         :param downloads: list of downloads already run for the contract
         """
         self.symbol = symbol
-        self.contract_id = contract_id
+        self.conId = conId
         self.downloads = downloads or []
+        self.requests = requests or []
         self.events = []
+
+    # @property
+    # def conId(self):
+    #     return self._conId
 
     # think about renaming to add_download
     # check with add_download in services to see where best to put the function
@@ -53,4 +74,43 @@ class Instrument:
                                   request_id=request_id))
         return [out]
 
+    def add_request(self, request: Request):
+        self.requests.append(request)
+
+    def update_recent(self, endDateTime: str):
+        latest_date_in_db = self.latest_date()
+        end_date_time = datetime.strptime(date_string=endDateTime, format='%Y%m%d %H:%M:%S %Z')
+        if latest_date_in_db >= end_date_time:
+            return None
+        return endDateTime
+
+    def latest_date(self):
+        return max([
+            datetime.strptime(date_string=request.endDateTime, format='%Y%m%d %H:%M:%S %Z')
+            for request in self.requests
+        ])
+
+    def update_old(self, endDateTime: str):
+        latest_date_in_db = self.earliest_date()
+        end_date_time = datetime.strptime(date_string=endDateTime, format='%Y%m%d %H:%M:%S %Z')
+        if latest_date_in_db >= end_date_time:
+            return None
+        return endDateTime
+
+    def earliest_date(self):
+        return max([
+            datetime.strptime(date_string=request.endDateTime, format='%Y%m%d %H:%M:%S %Z')
+            for request in self.requests
+        ])
+
+
 # @dataclass(unsafe_hash=True)
+
+
+@dataclass
+class DataSummary:
+    start_date: datetime
+    end_date: datetime
+    data_start_date: datetime
+    data_end_date: datetime
+    data_points_number: int

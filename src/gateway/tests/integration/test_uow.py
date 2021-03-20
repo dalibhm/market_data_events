@@ -1,7 +1,7 @@
 from gateway.domain import commands, events
 from gateway.services import unit_of_work
 from gateway.tests.conftest import *
-from gateway.domain.contract import Contract
+from gateway.domain.contract_v0 import Contract
 
 from gateway.services.handlers import add_contract  # , get_contract_by_symbol
 

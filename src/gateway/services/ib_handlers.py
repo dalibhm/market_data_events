@@ -1,7 +1,8 @@
+from dataclasses import asdict
 from queue import Queue
 from typing import Union
 
-from gateway.domain.contract import Contract
+from gateway.domain.contract_v0 import Contract
 from gateway.domain import commands, events
 from gateway.ib_gateway import ib_events, ib_commands
 from gateway.services import views
@@ -34,16 +35,16 @@ class IbCommandHandler:
 
     def reqHistoricalData(self, cmd: ib_commands.RequestHistoricalData,
                           ) -> None:
-        self.historical_data_manager.register_request(cmd)
+        reqId = cmd.reqId
+        contract = cmd.contract
+        params = cmd.params
+        self.historical_data_manager.register_request(reqId, contract, params)
         # TODO: Check if this can be done directly on HistoricalDataManager send function
-        contracts = views.contract(cmd.conId, self.uow)
-        contract: Contract = contracts[0]
-        contract.exchange = contract.primaryExchange
+        # contracts = views.contract(cmd.conId, self.uow)
+        # contract: Contract = contracts[0]
+        # contract.exchange = contract.primaryExchange
         self.ib_gateway_connection.reqHistoricalData(
-            reqId=cmd.reqId, contract=contracts[0], endDateTime=cmd.endDateTime,
-            durationStr=cmd.durationStr, barSizeSetting=cmd.barSizeSetting,
-            whatToShow=cmd.whatToShow, useRTH=cmd.useRTH, formatDate=cmd.formatDate,
-            keepUpToDate=cmd.keepUpToDate, chartOptions=cmd.chartOptions
+            reqId=reqId, contract=contract, **asdict(params), chartOptions=[]
         )
 
 

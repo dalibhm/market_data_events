@@ -4,6 +4,11 @@ from common.domain_events import DomainEvent, Command
 
 
 @dataclass
+class Event:
+    pass
+
+
+@dataclass
 class CreateDownload(Command):
     tenant_id: str
     download_id: str
@@ -25,14 +30,8 @@ class DownloadCreated(DomainEvent):
     end_date: str
 
 
-
-
-
 @dataclass
 class RequestSubmitted(DomainEvent):
     tenant_id: str
     download_id: str
     request_id: int
-
-
-

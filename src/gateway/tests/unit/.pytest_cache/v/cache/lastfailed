@@ -1,4 +1,6 @@
 {
+  "test_events.py": true,
+  "test_handlers.py": true,
   "test_handlers.py::TestAddContract": true,
   "test_handlers.py::TestAddContract::test_for_existing_contract": true,
   "test_handlers.py::TestAddContract::test_for_existing_contract_same_conId": true,

@@ -1,31 +1,33 @@
-(MainThread) 2020-12-15 13:48:30,869.869 INFO main.py:6 started logging
-(MainThread) 2020-12-15 13:48:31,146.146 INFO main.py:30 Intializing objects
-(MainThread) 2020-12-15 13:48:31,146.146 INFO bootstrap.py:16 Creating objects.
-(MainThread) 2020-12-15 13:48:31,165.165 INFO bootstrap.py:19 Started ORM mapper
-(MainThread) 2020-12-15 13:48:31,165.165 INFO bootstrap.py:23 Created UOW
-(MainThread) 2020-12-15 13:48:31,168.168 INFO client.py:178 sent startApi
-(MainThread) 2020-12-15 13:48:31,168.168 INFO client.py:88 REQUEST startApi {}
-(MainThread) 2020-12-15 13:48:31,168.168 INFO client.py:77 SENDING startApi b'\x00\x00\x00\x0871\x002\x001\x00\x00'
-(MainThread) 2020-12-15 13:48:31,168.168 INFO bootstrap.py:27 Created IB Gateway Connection
-(MainThread) 2020-12-15 13:48:31,168.168 INFO main.py:32 Objects initialized.
-(Thread-2) 2020-12-15 13:48:31,169.169 INFO wrapper.py:48 ANSWER managedAccounts {'accountsList': 'U1996237,U3349402,'}
-(Thread-2) 2020-12-15 13:48:31,169.169 INFO wrapper.py:48 ANSWER nextValidId {'orderId': 1}
-(MainThread) 2020-12-15 13:48:32,172.172 INFO main.py:39 Sending command.
-(MainThread) 2020-12-15 13:48:32,172.172 INFO client.py:88 REQUEST reqMatchingSymbols {'reqId': 20, 'pattern': 'AMZN'}
-(MainThread) 2020-12-15 13:48:32,173.173 INFO client.py:77 SENDING reqMatchingSymbols b'\x00\x00\x00\x0b81\x0020\x00AMZN\x00'
-(MainThread) 2020-12-15 13:48:33,175.175 INFO handlers.py:58 Writing contract description for 3691937,AMZN,STK,,0.0,,,,NASDAQ.NMS,USD,,,False,,combo:
-(MainThread) 2020-12-15 13:48:33,196.196 WARNING contract.py:34 Contract 3691937,AMZN,STK,,0.0,,,,NASDAQ.NMS,USD,,,False,,combo: already in database
-(MainThread) 2020-12-15 13:48:33,197.197 WARNING contract.py:41 DerivativeSecTypes for <gateway.domain.contract.Contract object at 0x7fb14e5af090> already in database
-(MainThread) 2020-12-15 13:48:33,198.198 INFO handlers.py:58 Writing contract description for 38708590,AMZN,STK,,0.0,,,,MEXI,MXN,,,False,,combo:
-(MainThread) 2020-12-15 13:48:33,201.201 WARNING contract.py:34 Contract 38708590,AMZN,STK,,0.0,,,,MEXI,MXN,,,False,,combo: already in database
-(MainThread) 2020-12-15 13:48:33,201.201 WARNING contract.py:41 DerivativeSecTypes for <gateway.domain.contract.Contract object at 0x7fb14e5c1a90> already in database
-(MainThread) 2020-12-15 13:48:33,202.202 INFO handlers.py:58 Writing contract description for 305691292,AMZN,STK,,0.0,,,,EBS,CHF,,,False,,combo:
-(MainThread) 2020-12-15 13:48:33,205.205 WARNING contract.py:34 Contract 305691292,AMZN,STK,,0.0,,,,EBS,CHF,,,False,,combo: already in database
-(MainThread) 2020-12-15 13:48:33,206.206 WARNING contract.py:41 DerivativeSecTypes for <gateway.domain.contract.Contract object at 0x7fb14e5ba990> already in database
-(MainThread) 2020-12-15 13:48:33,206.206 INFO handlers.py:58 Writing contract description for 242506846,AMZNUSD,STK,,0.0,,,,EBS,USD,,,False,,combo:
-(MainThread) 2020-12-15 13:48:33,209.209 WARNING contract.py:34 Contract 242506846,AMZNUSD,STK,,0.0,,,,EBS,USD,,,False,,combo: already in database
-(MainThread) 2020-12-15 13:48:33,210.210 WARNING contract.py:41 DerivativeSecTypes for <gateway.domain.contract.Contract object at 0x7fb14e5c5f10> already in database
-(MainThread) 2020-12-15 13:48:33,210.210 INFO handlers.py:58 Writing contract description for 430747376,3SZN,STK,,0.0,,,,LSEETF,USD,,,False,,combo:
-(MainThread) 2020-12-15 13:48:33,213.213 WARNING contract.py:34 Contract 430747376,3SZN,STK,,0.0,,,,LSEETF,USD,,,False,,combo: already in database
-(MainThread) 2020-12-15 13:48:33,214.214 WARNING contract.py:41 DerivativeSecTypes for <gateway.domain.contract.Contract object at 0x7fb14e5cc550> already in database
-(MainThread) 2020-12-15 13:48:38,214.214 INFO client.py:196 disconnecting
+(MainThread) 2021-03-19 19:35:39,139.139 INFO main.py:6 started logging
+(MainThread) 2021-03-19 19:35:39,354.354 INFO main.py:31 Intializing objects
+(MainThread) 2021-03-19 19:35:39,354.354 INFO bootstrap.py:19 Creating objects.
+(MainThread) 2021-03-19 19:35:39,413.413 INFO log.py:110 select version()
+(MainThread) 2021-03-19 19:35:39,413.413 INFO log.py:110 {}
+(MainThread) 2021-03-19 19:35:39,422.422 INFO log.py:110 select current_schema()
+(MainThread) 2021-03-19 19:35:39,422.422 INFO log.py:110 {}
+(MainThread) 2021-03-19 19:35:39,429.429 INFO log.py:110 SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
+(MainThread) 2021-03-19 19:35:39,429.429 INFO log.py:110 {}
+(MainThread) 2021-03-19 19:35:39,432.432 INFO log.py:110 SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
+(MainThread) 2021-03-19 19:35:39,432.432 INFO log.py:110 {}
+(MainThread) 2021-03-19 19:35:39,436.436 INFO log.py:110 show standard_conforming_strings
+(MainThread) 2021-03-19 19:35:39,436.436 INFO log.py:110 {}
+(MainThread) 2021-03-19 19:35:39,444.444 INFO log.py:110 select relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where pg_catalog.pg_table_is_visible(c.oid) and relname=%(name)s
+(MainThread) 2021-03-19 19:35:39,444.444 INFO log.py:110 {'name': 'instruments'}
+(MainThread) 2021-03-19 19:35:39,453.453 INFO log.py:110 select relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where pg_catalog.pg_table_is_visible(c.oid) and relname=%(name)s
+(MainThread) 2021-03-19 19:35:39,453.453 INFO log.py:110 {'name': 'contracts'}
+(MainThread) 2021-03-19 19:35:39,459.459 INFO log.py:110 select relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where pg_catalog.pg_table_is_visible(c.oid) and relname=%(name)s
+(MainThread) 2021-03-19 19:35:39,459.459 INFO log.py:110 {'name': 'contract_details'}
+(MainThread) 2021-03-19 19:35:39,467.467 INFO bootstrap.py:22 Started ORM mapper
+(MainThread) 2021-03-19 19:35:39,467.467 INFO bootstrap.py:26 Created UOW
+(MainThread) 2021-03-19 19:35:39,478.478 INFO client.py:178 sent startApi
+(MainThread) 2021-03-19 19:35:39,478.478 INFO client.py:88 REQUEST startApi {}
+(MainThread) 2021-03-19 19:35:39,478.478 INFO client.py:77 SENDING startApi b'\x00\x00\x00\x0871\x002\x001\x00\x00'
+(MainThread) 2021-03-19 19:35:39,479.479 INFO bootstrap.py:36 Created IB Command Handler
+(MainThread) 2021-03-19 19:35:39,479.479 INFO main.py:33 Objects initialized.
+(Thread-2) 2021-03-19 19:35:39,482.482 INFO wrapper.py:48 ANSWER managedAccounts {'accountsList': 'U1996237,U3349402,'}
+(Thread-2) 2021-03-19 19:35:39,483.483 INFO wrapper.py:48 ANSWER nextValidId {'orderId': 1}
+(Thread-2) 2021-03-19 19:35:39,489.489 ERROR error_handlers.py:15 IbError(created_on=datetime.datetime(2021, 3, 19, 19, 35, 39, 342828), reqId=-1, errorCode=2158, errorString='Sec-def data farm connection is OK:secdefeu')
+(MainThread) 2021-03-19 19:35:40,482.482 INFO main.py:40 Sending command.
+(MainThread) 2021-03-19 19:35:40,482.482 INFO client.py:88 REQUEST reqMatchingSymbols {'reqId': 20, 'pattern': 'BB'}
+(MainThread) 2021-03-19 19:35:40,482.482 INFO client.py:77 SENDING reqMatchingSymbols b'\x00\x00\x00\t81\x0020\x00BB\x00'
+(MainThread) 2021-03-19 19:35:42,484.484 INFO client.py:196 disconnecting

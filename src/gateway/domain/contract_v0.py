@@ -44,52 +44,70 @@ class Instrument:
         return f"Instrument({self.symbol}, {self.conId})"
 
 
+# @dataclass
 class Contract:
-    def __init__(self, conId: int,
-                 symbol: str,
-                 secType: str,
-                 lastTradeDateOrContractMonth: str,
-                 strike: float,
-                 right: str,
-                 multiplier: str,
-                 exchange: str,
-                 primaryExchange: str,
-                 currency: str,
-                 localSymbol: str,
-                 tradingClass: str,
-                 includeExpired: bool,
-                 secIdType: str = "",  # CUSIP;SEDOL;ISIN;RIC
-                 secId: str = "",
+    conId: int = 0
+    symbol: str = ""
+    secType: str = ""
+    lastTradeDateOrContractMonth: str = ""
+    strike: float = 0.  # float !!
+    right: str = ""
+    multiplier: str = ""
+    exchange: str = ""
+    primaryExchange: str = ""  # pick an actual (ie non-aggregate) exchange that the contract trades on.  DO NOT SET TO SMART.
+    currency: str = ""
+    localSymbol: str = ""
+    tradingClass: str = ""
+    includeExpired: bool = False
+    secIdType: str = ""  # CUSIP;SEDOL;ISIN;RIC
+    secId: str = ""
 
-                 # combos
-                 comboLegsDescrip: str = "",
-                 comboLegs=None,
-                 deltaNeutralContract=None):
+    # combos
+    comboLegsDescrip: str = ""  # type: str; received in open order 14 and up for all combos
+    comboLegs = None  # type: list<ComboLeg>
+    deltaNeutralContract = None
 
-        self.conId = conId
-        self.symbol = symbol
-        self.secType = secType
-        self.lastTradeDateOrContractMonth = lastTradeDateOrContractMonth
-        self.strike = strike  # float !!
-        self.right = right
-        self.multiplier = multiplier
-        self.exchange = exchange
-        self.primaryExchange = primaryExchange  # pick an actual (ie non-aggregate) exchange that the contract trades on.  DO NOT SET TO SMART.
-        self.currency = currency
-        self.localSymbol = localSymbol
-        self.tradingClass = tradingClass
-        self.includeExpired = includeExpired
-        self.secIdType = secIdType  # CUSIP;SEDOL;ISIN;RIC
-        self.secId = secId
-
-        # combos
-        self.comboLegsDescrip = comboLegsDescrip  # type: str; received in open order 14 and up for all combos
-        self.comboLegs = comboLegs  # type: list<ComboLeg>
-        self.deltaNeutralContract = deltaNeutralContract
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            if key in fields(Contract):
+                setattr(self, key, value)
+    fields = [
+        'conId', 'symbol', 'secType', 'lastTradeDateOrContractMonth', 'strike', 'right', 'multiplier',
+        'exchange', 'primaryExchange', 'currency', 'localSymbol', 'tradingClass', 'includeExpired', 'secIdType',
+        'secId', 'comboLegsDescrip', 'comboLegs', 'deltaNeutralContract'
+    ]
+    #
+    # def __init__(self, **kwargs):
+    #     self.conId = 0
+    #     self.symbol = ""
+    #     self.secType = ""
+    #     self.lastTradeDateOrContractMonth = ""
+    #     self.strike = 0.  # float !!
+    #     self.right = ""
+    #     self.multiplier = ""
+    #     self.exchange = ""
+    #     self.primaryExchange = ""  # pick an actual (ie non-aggregate) exchange that the contract trades on.  DO NOT SET TO SMART.
+    #     self.currency = ""
+    #     self.localSymbol = ""
+    #     self.tradingClass = ""
+    #     self.includeExpired = False
+    #     self.secIdType = ""  # CUSIP;SEDOL;ISIN;RIC
+    #     self.secId = ""
+    #
+    #     # combos
+    #     self.comboLegsDescrip = ""  # type: str; received in open order 14 and up for all combos
+    #     self.comboLegs = None  # type: list<ComboLeg>
+    #     self.deltaNeutralContract = None
+    #
+    #     for name, value in kwargs.items():
+    #         setattr(self, name, value)
 
     @classmethod
     def from_ib(cls, ib_contract: IbContract):
-        out = cls(**ib_contract.__dict__)
+        out = cls()
+        for field in fields(cls):
+            name = field.name
+            setattr(out, name, getattr(ib_contract, name))
         return out
 
     def __str__(self):
@@ -122,6 +140,29 @@ class Contract:
 
     def __repr__(self):
         return f"Contract({str(self)})"
+
+    # @property
+    # def ib_contract(self):
+    #     ib_contract = IbContract()
+    #     for field in self.fields:
+    #         setattr(ib_contract, field, getattr(self, field))
+    #     return ib_contract
+
+    # @classmethod
+    # def from_dict(cls, dictionary: dict):
+    #     contract = Contract()
+    #     for key, value in dictionary.items():
+    #         if key in cls.fields:
+    #             setattr(contract, key, value)
+    #     return contract
+
+
+# def ib_contract_from_dict(dictionary: dict):
+#     contract = IbContract()
+#     for key, value in dictionary.items():
+#         if key in Contract.fields:
+#             setattr(contract, key, value)
+#     return contract
 
 
 class DerivativeSecTypes:

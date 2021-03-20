@@ -79,9 +79,10 @@ def bootstrap(start_ORM: bool = None,
     exchange.get_exchange('main.contracts').attach(bus)
     exchange.get_exchange('main.derivativeSecTypes').attach(bus)
     exchange.get_exchange('main.contractDetails').attach(bus)
+    exchange.get_exchange('main.historicalData').attach(bus)
     ib_events_exchange.attach(bus)
 
-    return bus, ib_command_handler
+    return bus, ib_command_handler, ib_gateway_connection
 
 
 def inject_dependencies(handler, dependencies):

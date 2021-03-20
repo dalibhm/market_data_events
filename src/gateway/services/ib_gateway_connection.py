@@ -38,7 +38,7 @@ class AbstractConnection:
 
 
 class IbGatewayConnection(OneOnly, AbstractConnection):
-    def __init__(self, endpoint=('127.0.0.1', 4001, 1)):
+    def __init__(self, endpoint=('192.168.1.205', 4001, 1)):
         if not hasattr(self, 'ib_client'):
             self.host, self.port, self.clientId = endpoint
             init_logging()

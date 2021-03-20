@@ -5,21 +5,21 @@ from sqlalchemy import (
 from sqlalchemy.orm import mapper, relationship
 
 from gateway import config
-from gateway.domain import contract
+from gateway.domain import contract_v0
 
 metadata = MetaData()
 
 instruments = Table(
     'instruments', metadata,
-    Column('conId', Integer, index=True, primary_key=True),
-    Column('symbol', String, index=True)
-
+    Column('id', Integer, autoincrement=True, primary_key=True),
+    Column('symbol', String, index=True),
+    Column('conId', Integer, index=True)
 )
 
 contracts = Table(
     'contracts', metadata,
-    Column('conId', Integer, ForeignKey('instruments.conId'), index=True,  primary_key=True),
-    #Column('conId', Integer, ForeignKey('instruments.conId'), index=True, primary_key=True),
+    Column('id', Integer, autoincrement=True, primary_key=True),
+    Column('conId', Integer, index=True),
     # Column('instrument_id', Integer, ForeignKey('instruments.id')),
     Column('symbol', String(10), index=True),
     # Column('symbol', String(10)),
@@ -38,33 +38,43 @@ contracts = Table(
     Column('secId', String),
     Column('comboLegsDescrip', String),  # type: str
     Column('comboLegs', String),  # None  # type: list<ComboLeg>
-    Column('deltaNeutralContract', String)  # None
+    Column('deltaNeutralContract', String),  # None
 )
 
-contract_details = Table(
-    'contract_details', metadata,
-    Column('conId', Integer, ForeignKey('instruments.conId'), primary_key=True),
+derivatives_sec_types = Table(
+    'derivatives_sec_types', metadata,
+    Column('id', Integer, autoincrement=True, primary_key=True),
     Column('CFD', Boolean),
     Column('OPT', Boolean),
     Column('IOPT', Boolean),
     Column('WAR', Boolean),
-    Column('BAG', Boolean)
+    Column('BAG', Boolean),
     # Column('contract', String, index=True, nullable=False)
+)
+
+historical_data_map = Table(
+    'historical_data_map', metadata,
+    Column('id', Integer, autoincrement=True, primary_key=True),
+    Column('instrument_id', Integer, ForeignKey('instruments.id')),
+    Column('contract_id', Integer, ForeignKey('contracts.id')),
+    Column('derivatives_sec_types_id', Integer, ForeignKey('derivatives_sec_types.id')),
 )
 
 
 def start_mappers():
-    contracts_mapper = mapper(contract.Contract, contracts)
-    contract_details_mapper = mapper(contract.DerivativeSecTypes, contract_details)
-    mapper(contract.Instrument,
+    contracts_mapper = mapper(contract_v0.Contract, contracts)
+    derivatives_sec_types_mapper = mapper(contract_v0.DerivativeSecTypes, derivatives_sec_types)
+    mapper(contract_v0.Instrument,
            instruments,
            properties={
                '_contract': relationship(
                    contracts_mapper,
+                   secondary=historical_data_map,
                    uselist=False
                ),
                '_derivative_sec_types': relationship(
-                   contract_details_mapper,
+                   derivatives_sec_types_mapper,
+                   secondary=historical_data_map,
                    uselist=False
                )
            }
@@ -76,6 +86,6 @@ def start_mappers():
     # derivatives_sec_types.create(engine)
 
 
-@event.listens_for(contract.Instrument, 'load')
+@event.listens_for(contract_v0.Instrument, 'load')
 def receive_load(instrument, _):
     instrument.events = []

@@ -18,8 +18,8 @@ def add_contract(cmd: commands.CreateContract, uow: unit_of_work.AbstractUnitOfW
         instrument = uow.instruments.get_by_conId(conId=cmd.contract.conId)
         if instrument is None:
             instrument = Instrument(symbol=cmd.contract.symbol, conId=cmd.contract.conId)
-            uow.instruments.add(instrument)
         instrument.add_contract(cmd.contract)
+        uow.instruments.add(instrument)
         uow.commit()
 
 
@@ -28,16 +28,17 @@ def add_derivative_sec_types(cmd: commands.WriteDerivativeSecTypes, uow: unit_of
         instrument = uow.instruments.get_by_conId(conId=cmd.conId)
         if instrument is None:
             instrument = Instrument(symbol=cmd.symbol, conId=cmd.conId)
-            uow.instruments.add(instrument)
         instrument.add_derivativeSecTypes(cmd.derivative_sec_type)
+        uow.instruments.add(instrument)
         uow.commit()
 
 
-def log_message(event: ib_events.IbError) -> None:
+def log_message(event) -> None:
     print(event)
 
 
 EVENT_HANDLERS = {
+    events.HistoricalRequestProcessed: [log_message]
     # events.Write: [write_contract_descriptions, log_message],
     # events.Allocated: [
     #     handlers.publish_allocated_event,

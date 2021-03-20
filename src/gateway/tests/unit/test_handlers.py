@@ -3,7 +3,7 @@ from gateway.domain import commands, events
 
 from gateway.services import unit_of_work, bootstrap
 from gateway.services.ib_gateway_connection import AbstractConnection
-from gateway.domain import contract
+from gateway.domain import contract_v0
 
 
 class FakeRepository(repository.AbstractRepository):
@@ -67,14 +67,14 @@ def bootstrap_test_app():
     )
 
 
-class TestAddContract:
+class TestAddRequest:
 
-    def test_for_new_contract(self):
+    def test_for_new_request(self):
         bus = bootstrap_test_app()
 
         bus.handle(
             commands.CreateContract(
-                contract.Contract(conId=1, symbol='test-symbol')
+                contract_v0.Contract(conId=1, symbol='test-symbol')
             )
         )
         assert bus.uow.instruments.get(symbol='test-symbol') is not None
@@ -82,8 +82,8 @@ class TestAddContract:
 
     def test_for_existing_contract(self):
         bus = bootstrap_test_app()
-        bus.handle(commands.CreateContract(contract.Contract(conId=1, symbol='test-symbol')))
-        bus.handle(commands.CreateContract(contract.Contract(conId=2, symbol='test-symbol')))
+        bus.handle(commands.CreateContract(contract_v0.Contract(conId=1, symbol='test-symbol')))
+        bus.handle(commands.CreateContract(contract_v0.Contract(conId=2, symbol='test-symbol')))
         assert 2 == bus.uow.instruments.get(symbol='test-symbol').contract.conId
         #TODO: see if grouping contracts by symbol is useful.
 
@@ -93,6 +93,6 @@ class TestAddContract:
         :return:
         """
         bus = bootstrap_test_app()
-        bus.handle(commands.CreateContract(contract.Contract(conId=1, symbol='test-symbol-1')))
-        bus.handle(commands.CreateContract(contract.Contract(conId=1, symbol='test-symbol-2')))
+        bus.handle(commands.CreateContract(contract_v0.Contract(conId=1, symbol='test-symbol-1')))
+        bus.handle(commands.CreateContract(contract_v0.Contract(conId=1, symbol='test-symbol-2')))
         assert 1 == bus.uow.instruments.get(symbol='test-symbol-1').contract.conId

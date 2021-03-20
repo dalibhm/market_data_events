@@ -1,1 +1,4 @@
-{}
+{
+  "test_program.py": true,
+  "test_program.py::test_historical_data_download": true
+}
